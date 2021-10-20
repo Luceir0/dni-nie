@@ -1,0 +1,56 @@
+<!--
+Estamos implementando una funcionalidad en nuestra aplicación de creación de NIFs y NIE y necesitamos una calculadora de la letra de control..
+– Los NIFs están formados por 8 dígitos y una letra de control.
+-Los NIEs están formados por una letra (X, Y o Z), 7 dígitos y una letra de control.
+enlace donde se explica cómo calcular ese dígito de control.
+Necesitamos un formulario con dos campos: en el primero se introducen los dígitos del NIF o NIE y en el segundo debería aparecer la letra correspondiente. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de la letra de control</title>
+</head>
+<body>
+    <form onsubmit="laFuncion()">
+        <h3>Introduce tu NIF/NIE</h3>
+        Tu NIF/NIE: <input id="elNumero" type="text" required/>
+        Tu letra: <input id="laLetra" type="text" readonly/>
+        <br/> <br/>
+
+        <input type="submit" value="Aceptar" />
+    </form>
+    <script>
+        function laFuncion(){
+            this.event.preventDefault();
+
+            const letras = ['T','R','W','A','G','M','Y','F','P','D','X','B','N','J','Z','S','Q','V','H','L','C','K','E'];
+
+            let elString = document.getElementById("elNumero").value;
+            if (!isNaN(elString.charAt(0))) {
+                let nif = elString;
+                let indexDelArray = nif%23;
+                let laLetra = letras[indexDelArray];
+                document.getElementById("laLetra").placeholder = laLetra;
+            } else {
+                let nie = elString;
+                let convertedNie;
+                if (nie.charAt(0) == 'x' || 'X') {
+                   convertedNie =  nie.replace(/X/i, 0);
+                } else if (nie.charAt(0) == 'y' || 'Y') {
+                    convertedNie = nie.replace(/Y/i, 1);
+                } else if (nie.charAt(0) == 'z' || 'Z') {
+                   convertedNie =  nie.replace(/Z/i, 2)
+                }
+                
+                let indexDelArray = convertedNie%23;
+                let laLetra = letras[indexDelArray];
+                document.getElementById("laLetra").placeholder = laLetra;
+            }
+        }
+    </script>
+
+</body>
+</html>
